@@ -69,10 +69,35 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Orbitron:wght@400;700;900&display=swap');
         
+        /* --- HỆ THỐNG MÀU SẮC (CSS VARIABLES) --- */
+        :root {
+            --bg-primary: #0a0a0a;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --navbar-bg: rgba(10, 10, 10, 0.4);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --jade: #00a86b;
+            --news-bg: #ffffff;
+            --news-text: #000000;
+        }
+
+        /* --- LIGHT MODE --- */
+        body.light-mode {
+            --bg-primary: #f8fafc;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --navbar-bg: rgba(255, 255, 255, 0.8);
+            --card-bg: #ffffff;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --news-bg: #f1f5f9;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a;
-            color: #ffffff;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.4s ease, color 0.4s ease;
             overflow-x: hidden;
             min-height: 100vh;
         }
@@ -93,16 +118,22 @@
             object-fit: cover;
             opacity: 0.35;
             filter: brightness(0.5) contrast(1.1);
+            transition: opacity 0.4s ease, filter 0.4s ease;
+        }
+
+        body.light-mode .fixed-background img {
+            opacity: 0.1;
+            filter: brightness(1.2) grayscale(0.5);
         }
 
         .hero-gradient {
-            background: linear-gradient(0deg, rgba(10,10,10,1) 0%, rgba(10,10,10,0.1) 50%, rgba(10,10,10,0.9) 100%);
+            background: linear-gradient(0deg, var(--bg-primary) 0%, transparent 50%, var(--bg-primary) 100%);
         }
 
         .logo-glow { filter: drop-shadow(0 0 10px rgba(0, 168, 107, 0.7)); }
 
         .studio-name-highlight {
-            background: linear-gradient(to bottom, #ffffff 30%, #00a86b 100%);
+            background: linear-gradient(to bottom, var(--text-primary) 30%, var(--jade) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 20px rgba(0, 168, 107, 0.4);
@@ -113,25 +144,23 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(0, 168, 107, 0.5);
+            border: 1px solid var(--jade);
+            background: rgba(0, 168, 107, 0.05);
         }
 
         .riot-button:hover {
             box-shadow: 0 0 25px rgba(0, 168, 107, 0.5);
-            background: #00a86b;
+            background: var(--jade);
             color: white;
         }
 
-        .active-link { color: #00a86b !important; position: relative; }
+        .active-link { color: var(--jade) !important; position: relative; }
         .active-link::after {
             content: '';
             position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #00a86b;
-            box-shadow: 0 0 10px #00a86b;
+            bottom: -4px; left: 0; width: 100%; height: 2px;
+            background: var(--jade);
+            box-shadow: 0 0 10px var(--jade);
         }
 
         .fade-in { animation: fadeIn 0.8s ease-out; }
@@ -141,8 +170,8 @@
         }
 
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #00a86b; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--jade); }
 
         .modal-backdrop {
             display: none;
@@ -156,8 +185,8 @@
         }
 
         .modal-content {
-            background: #0d0d0d;
-            border: 1px solid rgba(0, 168, 107, 0.4);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
             box-shadow: 0 0 60px rgba(0, 168, 107, 0.2);
             width: 95%;
             max-width: 450px;
@@ -172,67 +201,57 @@
 
         .social-btn {
             background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
             transition: all 0.3s;
+            color: var(--text-primary);
         }
 
-        .social-btn:hover { border-color: #00a86b; background: rgba(0, 168, 107, 0.05); }
+        .social-btn:hover { border-color: var(--jade); background: rgba(0, 168, 107, 0.05); }
 
         .input-group label {
-            display: block;
-            font-size: 10px;
-            text-transform: uppercase;
-            font-weight: bold;
-            color: #666;
-            margin-bottom: 8px;
+            display: block; font-size: 10px; text-transform: uppercase;
+            font-weight: bold; color: var(--text-secondary); margin-bottom: 8px;
         }
 
         .input-group input {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            width: 100%;
-            padding: 0.85rem 1rem;
-            border-radius: 4px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            width: 100%; padding: 0.85rem 1rem; border-radius: 4px;
             outline: none;
         }
 
-        .input-group input:focus { border-color: #00a86b; }
+        .input-group input:focus { border-color: var(--jade); }
 
         .auth-view { display: none; }
         .auth-view.active { display: block; }
 
         .avatar-frame {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid #00a86b;
+            width: 38px; height: 38px;
+            border-radius: 50%; overflow: hidden;
+            border: 2px solid var(--jade);
             box-shadow: 0 0 15px rgba(0, 168, 107, 0.5);
         }
 
         #status-msg {
             display: none;
-            position: fixed;
-            top: 25px;
-            right: 25px;
-            background: #00a86b;
-            color: white;
-            padding: 1.25rem 2.5rem;
-            border-radius: 4px;
-            z-index: 150;
-            font-weight: 800;
+            position: fixed; top: 25px; right: 25px;
+            background: var(--jade); color: white;
+            padding: 1.25rem 2.5rem; border-radius: 4px;
+            z-index: 150; font-weight: 800;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
         }
     </style>
 </head>
 <body>
 
+    <!-- LỚP NỀN CỐ ĐỊNH -->
     <div class="fixed-background">
         <img src="images/background.jpg" alt="Background" class="animate-pulse">
         <div class="absolute inset-0 hero-gradient"></div>
     </div>
 
+    <!-- Thông báo -->
     <div id="status-msg" class="flex items-center gap-3">
         <i data-lucide="shield-check"></i>
         <span id="status-text">Đang tải...</span>
@@ -241,7 +260,7 @@
     <!-- Auth Modal -->
     <div id="authModal" class="modal-backdrop">
         <div class="modal-content">
-            <button onclick="toggleModal(false)" class="absolute top-6 right-6 text-gray-500 hover:text-white">
+            <button onclick="toggleModal(false)" class="absolute top-6 right-6 text-gray-500 hover:text-red-500">
                 <i data-lucide="x-circle"></i>
             </button>
             
@@ -266,8 +285,8 @@
                 </form>
 
                 <div class="relative my-8 text-center">
-                    <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-white/5"></div></div>
-                    <span class="relative bg-[#0d0d0d] px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Or Login With</span>
+                    <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-700"></div></div>
+                    <span class="relative px-4 text-[10px] text-gray-500 font-bold uppercase" style="background: var(--bg-primary)">Or Login With</span>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 mb-10">
@@ -289,7 +308,7 @@
             <!-- REGISTER VIEW -->
             <div id="registerView" class="auth-view">
                 <div class="text-center mb-10">
-                    <h2 class="font-gaming text-4xl font-black italic text-emerald-500 uppercase tracking-tighter">Sign Up</h2>
+                    <h2 class="font-gaming text-4xl font-black italic text-emerald-500 tracking-tighter">Sign Up</h2>
                     <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-3">Join the future of gaming</p>
                 </div>
                 
@@ -319,7 +338,7 @@
     </div>
 
     <!-- NAVBAR -->
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-5 px-6 md:px-12 flex justify-between items-center bg-black/40 backdrop-blur-xl border-b border-white/5">
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-5 px-6 md:px-12 flex justify-between items-center bg-[var(--navbar-bg)] backdrop-blur-xl border-b border-white/5">
         <div class="flex items-center gap-12">
             <a href="javascript:void(0)" onclick="navigateTo('home')" class="group flex items-center gap-4">
                 <img src="images/logo.jpg" alt="Logo" class="h-11 w-auto object-contain logo-glow transition-transform group-hover:scale-110">
@@ -327,15 +346,20 @@
             </a>
             
             <ul class="hidden lg:flex gap-10 text-[11px] font-bold uppercase tracking-[0.3em] text-gray-400">
-                <li><a href="javascript:void(0)" onclick="navigateTo('home')" id="nav-home" class="nav-link hover:text-white transition-colors italic">Home</a></li>
-                <li><a href="javascript:void(0)" onclick="navigateTo('about')" id="nav-about" class="nav-link hover:text-white transition-colors italic">About</a></li>
-                <li><a href="javascript:void(0)" onclick="navigateTo('game')" id="nav-game" class="nav-link hover:text-white transition-colors italic">Game</a></li>
-                <li><a href="javascript:void(0)" onclick="navigateTo('news')" id="nav-news" class="nav-link hover:text-white transition-colors italic">News</a></li>
+                <li><a href="javascript:void(0)" onclick="navigateTo('home')" id="nav-home" class="nav-link hover:text-[var(--text-primary)] transition-colors italic">Home</a></li>
+                <li><a href="javascript:void(0)" onclick="navigateTo('about')" id="nav-about" class="nav-link hover:text-[var(--text-primary)] transition-colors italic">About</a></li>
+                <li><a href="javascript:void(0)" onclick="navigateTo('game')" id="nav-game" class="nav-link hover:text-[var(--text-primary)] transition-colors italic">Game</a></li>
+                <li><a href="javascript:void(0)" onclick="navigateTo('news')" id="nav-news" class="nav-link hover:text-[var(--text-primary)] transition-colors italic">News</a></li>
             </ul>
         </div>
 
         <div class="flex items-center gap-6" id="nav-actions">
-            <button id="loginBtn" onclick="toggleModal(true)" class="bg-transparent border border-emerald-600/30 text-white px-10 py-3 rounded-full font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-emerald-600 transition-all duration-300 shadow-lg shadow-emerald-600/10">Login</button>
+            <!-- THEME TOGGLE BUTTON -->
+            <button onclick="toggleTheme()" id="theme-btn" class="p-2.5 rounded-full bg-white/5 border border-white/10 hover:border-emerald-500 transition-all text-emerald-500">
+                <i data-lucide="moon" size="18" id="theme-icon"></i>
+            </button>
+
+            <button id="loginBtn" onclick="toggleModal(true)" class="bg-transparent border border-emerald-600/30 text-[var(--text-primary)] px-10 py-3 rounded-full font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-emerald-600 hover:text-white transition-all duration-300 shadow-lg shadow-emerald-600/10">Login</button>
             
             <div id="userProfile" class="hidden flex items-center gap-5 group cursor-pointer relative">
                 <div class="flex flex-col items-end">
@@ -345,13 +369,13 @@
                 <div class="avatar-frame">
                     <img id="userAvatar" src="" alt="Avatar" class="w-full h-full object-cover">
                 </div>
-                <div class="absolute top-full right-0 mt-4 bg-[#0d0d0d] border border-emerald-600/30 p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all shadow-2xl">
+                <div class="absolute top-full right-0 mt-4 bg-[var(--bg-primary)] border border-emerald-600/30 p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all shadow-2xl">
                     <button onclick="handleLogout()" class="text-[10px] font-bold uppercase text-red-500 hover:text-white flex items-center gap-3 whitespace-nowrap p-3 transition-all">
                         <i data-lucide="log-out" size="14"></i> Sign Out
                     </button>
                 </div>
             </div>
-            <button id="menu-btn" class="lg:hidden text-white"><i data-lucide="menu"></i></button>
+            <button id="menu-btn" class="lg:hidden text-[var(--text-primary)]"><i data-lucide="menu"></i></button>
         </div>
     </nav>
 
@@ -362,24 +386,24 @@
                 <div class="mb-6 opacity-90 font-gaming font-bold text-emerald-500 tracking-[0.6em] uppercase text-xs md:text-sm">Architects of Virtual Reality</div>
                 <h1 class="font-gaming text-6xl md:text-9xl font-black italic uppercase tracking-tighter mb-8 studio-name-highlight leading-none">AERION FELL</h1>
                 <div class="w-32 h-1 bg-emerald-600 mx-auto mb-10 shadow-[0_0_20px_#00a86b]"></div>
-                <p class="text-xl text-gray-300 mb-14 max-w-3xl mx-auto italic">Kiến tạo những giấc mơ <span class="text-white font-bold">xanh thẳm</span> trong lòng thực tại.</p>
-                <button onclick="navigateTo('game')" class="riot-button bg-emerald-600/10 text-white px-16 py-6 font-gaming font-bold uppercase italic tracking-[0.3em] text-sm shadow-2xl">Explore Worlds</button>
+                <p class="text-xl text-[var(--text-secondary)] mb-14 max-w-3xl mx-auto italic">Kiến tạo những giấc mơ <span class="text-[var(--text-primary)] font-bold">xanh thẳm</span> trong lòng thực tại.</p>
+                <button onclick="navigateTo('game')" class="riot-button text-[var(--text-primary)] px-16 py-6 font-gaming font-bold uppercase italic tracking-[0.3em] text-sm shadow-2xl">Explore Worlds</button>
             </div>
         </section>
     </main>
 
     <main id="page-about" class="page-content hidden fade-in pt-40 px-12">
-        <div class="bg-black/40 backdrop-blur-xl p-12 border border-white/5 rounded-lg shadow-2xl max-w-5xl mx-auto">
+        <div class="bg-[var(--card-bg)] backdrop-blur-xl p-12 border border-[var(--border-color)] rounded-lg shadow-2xl max-w-5xl mx-auto">
             <h2 class="font-gaming text-emerald-500 font-bold uppercase mb-4 text-sm tracking-[0.4em]">Our Mission</h2>
-            <h3 class="font-gaming text-5xl font-black uppercase text-white mb-10 italic">Sứ mệnh của chúng tôi</h3>
-            <p class="text-gray-300 text-xl leading-relaxed font-light italic mb-8">Tại AERION FELL, chúng tôi tin rằng trò chơi điện tử là đỉnh cao của sự kết hợp giữa nghệ thuật và công nghệ. Với màu xanh ngọc bích làm biểu tượng, chúng tôi kiến tạo những giá trị không biên giới.</p>
+            <h3 class="font-gaming text-5xl font-black text-[var(--text-primary)] mb-10 italic">Sứ mệnh của chúng tôi</h3>
+            <p class="text-[var(--text-secondary)] text-xl leading-relaxed font-light italic mb-8">Tại AERION FELL, chúng tôi tin rằng trò chơi điện tử là đỉnh cao của sự kết hợp giữa nghệ thuật và công nghệ. Với màu xanh ngọc bích làm biểu tượng, chúng tôi kiến tạo những giá trị không biên giới.</p>
         </div>
     </main>
 
     <main id="page-game" class="page-content hidden fade-in pt-40 px-12 pb-20">
-        <h3 class="font-gaming text-5xl font-black italic mb-16 text-white uppercase text-center">Portfolio</h3>
+        <h3 class="font-gaming text-5xl font-black italic mb-16 text-[var(--text-primary)] uppercase text-center">Portfolio</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto">
-            <div class="group relative overflow-hidden aspect-video border border-emerald-600/20 rounded-sm">
+            <div class="group relative overflow-hidden aspect-video border border-emerald-600/20 rounded-sm bg-black">
                 <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=1200" class="w-full h-full object-cover">
                 <div class="absolute bottom-0 p-10 text-white bg-gradient-to-t from-black to-transparent w-full">
                     <h4 class="font-gaming text-4xl italic">Project Emerald</h4>
@@ -390,9 +414,9 @@
     </main>
 
     <main id="page-news" class="page-content hidden fade-in pt-40 px-12 pb-20">
-        <div class="max-w-5xl mx-auto bg-white p-12 rounded-lg text-black">
+        <div class="max-w-5xl mx-auto bg-[var(--news-bg)] p-12 rounded-lg text-[var(--news-text)] shadow-2xl border border-[var(--border-color)]">
             <h3 class="font-gaming text-5xl font-black italic text-center mb-16 uppercase">Tin tức mới nhất</h3>
-            <article class="flex flex-col lg:flex-row gap-12 items-center group border-b pb-16">
+            <article class="flex flex-col lg:flex-row gap-12 items-center group border-b border-gray-200 pb-16">
                 <div class="w-full lg:w-2/5 aspect-video overflow-hidden rounded-lg shadow-md">
                     <img src="images/dat.jpg" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=600'">
                 </div>
@@ -418,6 +442,22 @@
     </footer>
 
     <script>
+        // TOGGLE THEME LOGIC
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                icon.setAttribute('data-lucide', 'sun');
+                showStatus('Đã chuyển sang Chế độ Sáng!', 'success');
+            } else {
+                icon.setAttribute('data-lucide', 'moon');
+                showStatus('Đã chuyển sang Chế độ Tối!', 'success');
+            }
+            lucide.createIcons();
+        }
+
         function toggleModal(show) {
             const m = document.getElementById('authModal');
             if(show) m.classList.add('modal-active'); else m.classList.remove('modal-active');
@@ -435,19 +475,13 @@
                 console.log(`Bắt đầu đăng nhập ${providerName}...`);
                 await window.signInWithPopup(window.auth, p);
             } catch (e) { 
-                console.error("Firebase Full Error Object:", e);
-                console.error("Mã lỗi cụ thể:", e.code);
-                
+                console.error("Firebase Error:", e.code);
                 let msg = `Lỗi: ${e.code}. Hãy nhấn F12 xem Console!`;
-                
                 if (e.code === 'auth/operation-not-allowed') {
-                    msg = "Lỗi: Google chưa được 'Enable' trong Firebase Console > Authentication!";
+                    msg = "Lỗi: Google chưa được 'Enable' trong Firebase Console!";
                 } else if (e.code === 'auth/unauthorized-domain') {
                     msg = "Lỗi: Domain localhost chưa được thêm vào Authorized domains!";
-                } else if (e.code === 'auth/popup-blocked') {
-                    msg = "Lỗi: Trình duyệt của bạn đang chặn Popup!";
                 }
-                
                 showStatus(msg, 'error'); 
             }
         }
@@ -474,12 +508,11 @@
             t.innerText = text;
             b.style.backgroundColor = type === 'success' ? '#00a86b' : '#ef4444';
             b.style.display = 'flex';
-            setTimeout(() => { b.style.display = 'none'; }, 7000); // Hiện 7 giây để kịp đọc lỗi
+            setTimeout(() => { b.style.display = 'none'; }, 6000);
         }
 
         function navigateTo(id) {
-            const pages = ['home', 'about', 'game', 'news'];
-            pages.forEach(p => {
+            ['home', 'about', 'game', 'news'].forEach(p => {
                 const el = document.getElementById('page-' + p);
                 if(el) el.classList.add('hidden');
                 const n = document.getElementById('nav-' + p);
@@ -495,8 +528,8 @@
 
         window.onscroll = () => {
             const n = document.getElementById('navbar');
-            if (window.scrollY > 50) n.classList.add('bg-black/95', 'py-4');
-            else n.classList.remove('bg-black/95', 'py-4');
+            if (window.scrollY > 50) n.classList.add('py-3', 'bg-opacity-95');
+            else n.classList.remove('py-3', 'bg-opacity-95');
         };
         
         window.onclick = (e) => { if (e.target == document.getElementById('authModal')) toggleModal(false); }
